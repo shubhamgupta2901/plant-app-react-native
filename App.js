@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import WelcomeScreen from './screens/Welcome';
-import ExploreScreen from './screens/Explore';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+import ExploreScreen from './src/screens/ExploreScreen';
 
 class App extends React.Component {
   render() {
