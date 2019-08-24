@@ -20,7 +20,7 @@ const AppNavigator = createStackNavigator(
     Explore: ExploreScreen,
   },
   {
-    initialRouteName: "Explore"
+    initialRouteName: "Welcome"
   }
 );
 
