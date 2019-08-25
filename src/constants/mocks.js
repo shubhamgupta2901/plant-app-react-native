@@ -75,9 +75,9 @@ const explore = [
 ];
 
 const profile = {
-  username: 'react-ui-kit',
-  location: 'Europe',
-  email: 'contact@react-ui-kit.com',
+  username: 'shubham_gupta',
+  location: 'Bangalore',
+  email: 'shubham.sg2901@gmail.com',
   avatar: require('../../assets/images/avatar.png'),
   budget: 1000,
   monthly_cap: 5000,
