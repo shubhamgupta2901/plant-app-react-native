@@ -18,11 +18,14 @@ class App extends React.Component{
 
     render(){
         console.disableYellowBox = true;
-        if(this.state.isReady){
+        if(!this.state.isReady){
             return (
                 <AppLoading
                     startAsync={this.loadAssetsAsynchrously}
-                    onFinish = {() =>this.setState({isReady: true})}
+                    onFinish = {() =>{
+                        this.setState({isReady: true})
+                        console.log('Apploading complete')
+                    }}
                     onError={console.warn}
                 />
             );
