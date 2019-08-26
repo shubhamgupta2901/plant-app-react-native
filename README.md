@@ -1,4 +1,4 @@
-# plant-app-react-native
+# Plant App
 A react native app for android and iOS to browse plants and related products for your garden. Distribution with expo. 
 Code originally written by [dribbble2react](https://github.com/react-ui-kit/dribbble2react). This is my implementation of same design.
 
