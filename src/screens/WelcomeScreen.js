@@ -1,13 +1,14 @@
 import React from "react";
-import { Animated, Dimensions, StyleSheet, FlatList, Image} from "react-native";
-import {Block, Text, Button} from '../components';
+import { Animated, Dimensions, StyleSheet, FlatList, Image, Modal, ScrollView} from "react-native";
+import {Block, Text, Button} from '../elements';
 import {theme} from '../constants/index';
+import {TermsOfService} from '../components';
 const {width, height} = Dimensions.get('window');
 class WelcomeScreen extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {showTermsOfService: false};
   }
 
   static navigationOptions = {
@@ -15,6 +16,32 @@ class WelcomeScreen extends React.Component {
   }
 
   scrollX = new Animated.Value(0);
+
+
+  onLoginClicked = () => {
+    this.props.navigation.navigate('login');
+  }
+
+  onSignupClicked = () => {
+    this.props.navigation.navigate('signup');
+  }
+
+  onTermsOfServiceClicked = () => {
+      this.setState({showTermsOfService: true})
+  }
+
+  onHideTermsOfService = () => {
+    this.setState({showTermsOfService: false})
+  }
+
+  renderTermsOfService = () =>{
+    return (
+      <TermsOfService 
+        visible = {this.state.showTermsOfService} 
+        onRequestClose = {this.onHideTermsOfService}
+      />
+    );
+  }
   
   renderIllustrations = () => {
     const {illustrations} = this.props;
@@ -72,12 +99,12 @@ class WelcomeScreen extends React.Component {
     )
   }
 
-  render() {
+  renderWelcomeScreen = () => {
     return (
       <Block>
         <Block flex={0.4} center bottom>
-          <Text h1 center bold>Text Here.<Text h1 primary>Assert.</Text></Text>
-          <Text h3 gray style={{margin: theme.sizes.padding/2}}>Subtitle Text Here.</Text>
+          <Text h1 center bold>Plants<Text h1 primary> Store</Text></Text>
+          <Text h3 gray style={{margin: theme.sizes.padding/2}}>For a greener home.</Text>
         </Block>
 
         <Block center middle>
@@ -86,25 +113,31 @@ class WelcomeScreen extends React.Component {
         </Block>
 
         <Block middle flex={0.5} margin={[0, theme.sizes.padding*2]}> 
-          <Button shadow gradient onPress ={()=>{}}>
-            <Text center semibold white>Button</Text>
+          <Button shadow gradient onPress ={this.onLoginClicked}>
+            <Text center semibold white>Login</Text>
           </Button>
           
           <Button 
             center 
             color={theme.colors.white} 
             shadow  
-            onPress={()=>{console.log("Clicked")}}
+            onPress={this.onSignupClicked}
           >
-            <Text center semibold>Button</Text>
+            <Text center semibold>Signup</Text>
           </Button>
 
-          <Button onPress ={()=>{console.log("Clicked")}} >
+          <Button onPress ={this.onTermsOfServiceClicked}>
             <Text center caption gray>Terms of Service</Text>
           </Button>
         </Block>
       </Block>
-    ); 
+    );
+  }
+
+  render() {
+    if(this.state.showTermsOfService)
+      return this.renderTermsOfService();
+    return this.renderWelcomeScreen();
   }
 }
 
