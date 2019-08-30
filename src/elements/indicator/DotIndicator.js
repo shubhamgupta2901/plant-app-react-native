@@ -82,4 +82,4 @@ const styles = {
   }
 }
 
-export {DotIndicator};
+export default DotIndicator;

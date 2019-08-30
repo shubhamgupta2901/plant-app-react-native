@@ -120,4 +120,4 @@ const styles = {
 }
 
 
-export { BarIndicator };
+export default BarIndicator;
