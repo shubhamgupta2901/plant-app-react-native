@@ -62,15 +62,15 @@ class LoginScreen extends React.Component {
          <Block middle>
             <Input
               label= "Email"
-              style = {styles.input}
-              error ={errorStyle('email')}
+              error = {errorStyle('email')}
+              style = {[styles.input, errorStyle('email')]}
               defaultValue = {this.state.email}
               onChangeText = {(text)=>this.onEmailTextChanged(text)}
             />
             <Input
               secure
               label= "Password"
-              style = {styles.input}
+              style = {[styles.input,errorStyle('password')]}
               error = {errorStyle('password')}
               defaultValue = {this.state.password}
               onChangeText = {(text)=>this.onPasswordTextChanged(text)}
