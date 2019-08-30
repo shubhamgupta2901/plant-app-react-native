@@ -5,6 +5,7 @@ import {Platform, Image} from 'react-native';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import SignupScreen from '../screens/SignupScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import BrowseScreen from '../screens/BrowseScreen';
@@ -18,6 +19,7 @@ const screens = createStackNavigator(
     {
         welcome: WelcomeScreen,
         login: LoginScreen,
+        forgot_password: ForgotPasswordScreen,
         signup: SignupScreen,
         explore: ExploreScreen,
         browse: BrowseScreen,
