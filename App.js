@@ -3,7 +3,7 @@ import React from 'react';
 import {View} from 'react-native'
 import {AppLoading} from 'expo';
 import AppContainer from './src/navigation';
-import * as PreloadingAssets from './src/utils/PreloadingAssets';
+import {PreloadingAssets} from './src/utils';
 
 class App extends React.Component{
     constructor(props){
