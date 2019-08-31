@@ -195,7 +195,7 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 13,
-        elevation: 2,
+        elevation: 6,
     },
     accent: { backgroundColor: theme.colors.accent, },
     primary: { backgroundColor: theme.colors.primary, },
