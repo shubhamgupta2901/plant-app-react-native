@@ -1,6 +1,6 @@
 import React from 'react';
+import {StyleSheet,View, Text} from 'react-native'
 import PropTypes from 'prop-types'
-import {View, Text} from 'react-native';
 
 class SettingsScreen extends React.Component {
   constructor(props){
@@ -10,12 +10,20 @@ class SettingsScreen extends React.Component {
   }
   render(){
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>SettingsScreen</Text>
-      </View>
+        <View style={styles.container}>
+            <Text>SettingsScreen</Text>
+        </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+})
 
 SettingsScreen.propTypes ={
 }
