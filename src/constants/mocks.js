@@ -78,7 +78,7 @@ const profile = {
   username: 'shubham_gupta',
   location: 'Bangalore',
   email: 'shubham.sg2901@gmail.com',
-  avatar: require('../../assets/images/avatar.png'),
+  avatar: require('../../assets/images/sg_avatar.jpeg'),
   budget: 1000,
   monthly_cap: 5000,
   notifications: true,
