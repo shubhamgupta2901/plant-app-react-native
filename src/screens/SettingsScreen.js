@@ -93,7 +93,7 @@ class SettingsScreen extends React.Component {
       return null;
     let newSwitchesState = {...this.state.switches};
     newSwitchesState[switchKey].value = newValue;
-    this.setState({sliders: newSwitchesState}); 
+    this.setState({switches: newSwitchesState}); 
   }
   renderHeader = () => {
     return (
