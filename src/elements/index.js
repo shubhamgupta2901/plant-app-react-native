@@ -6,6 +6,7 @@ import Card from './Card';
 import Badge from './Badge';
 import Divider from './Divider';
 import Switch from './Switch';
+import Slider from './Slider';
 import {DotIndicator, BarIndicator} from './indicator';
 
 
@@ -17,6 +18,7 @@ export {
     Card,
     Badge,
     Switch,
+    Slider,
     Divider,
     DotIndicator, 
     BarIndicator,
