@@ -11,9 +11,31 @@ class BrowseScreen extends React.Component {
     super(props);
     this.state = {
       active: this.props.tabs[0],
+      categories:[],
     }
   }
 
+  componentDidMount(){
+    this.setState({categories: this.getCategoriesForActiveTab(this.state.active)})
+  }
+
+  getCategoriesForActiveTab = (tab) => {
+    const filteredCategories = this.props.categories.filter( category => {
+      if(category.tags.includes(tab.toLowerCase()))
+        return true;
+      return false;
+    })
+    return filteredCategories;
+  }
+
+  onTabClicked = (tab) => {
+    if(tab === this.active)
+      return;
+    this.setState({
+      active: tab,
+      categories: this.getCategoriesForActiveTab(tab),
+    });
+  }
   onAvatarClicked = () => {
     this.props.navigation.navigate('settings');
   }
@@ -49,7 +71,7 @@ class BrowseScreen extends React.Component {
     return (
       <TouchableOpacity
         key = {`tab-${this.props.tabs.indexOf(tab)}`}
-        onPress = {()=> this.setState({active: tab})}
+        onPress = {()=> this.onTabClicked(tab)}
         style = {[styles.tab, isActive ? styles.activeTab : null]}
       >
         <Text size = {16} medium gray = {!isActive} secondary = {isActive}>{tab}</Text>
@@ -64,7 +86,7 @@ class BrowseScreen extends React.Component {
         style = {{paddingVertical: theme.sizes.base *2}}
       >
         <Block row space="between" style={styles.categories}>
-          {this.props.categories.map(category => this.renderCategory(category))}
+          {this.state.categories.map(category => this.renderCategory(category))}
         </Block>
       </ScrollView>
     );
@@ -141,7 +163,7 @@ BrowseScreen.propTypes ={
 BrowseScreen.defaultProps ={
   profile: mocks.profile,
   categories: mocks.categories,
-  tabs: ['Products', 'Inspiration', 'Shop'],
+  tabs: ['Products', 'Inspirations', 'Shop'],
 }
 
 export default BrowseScreen;
