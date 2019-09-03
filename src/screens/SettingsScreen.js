@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet,ScrollView, Image, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Slider from "react-native-slider";
-import {Block, Text, Button, Switch, Divider, Input} from '../elements';
+import {Block, Text, Button, Switch, Divider, Input,Slider} from '../elements';
 import {theme,mocks} from '../constants';
 import {CommonUtils} from '../utils'
 
@@ -30,6 +29,22 @@ class SettingsScreen extends React.Component {
           hasRightLabel: false,
         }
       },
+      sliders: {
+        budget:{
+          label: 'Budget',
+          minimumValue: 0,
+          maximumValue: mocks.profile.budget*2,
+          value: mocks.profile.budget,
+          step: 100,
+        },
+        monthlyCap:{
+          label: 'Monthly Cap',
+          minimumValue: 0,
+          maximumValue: mocks.profile.monthly_cap*2,
+          value: mocks.profile.monthly_cap,
+          step: 100,
+        },
+      },
       sliderValue: 1000,
     }
   }
@@ -54,6 +69,13 @@ class SettingsScreen extends React.Component {
     this.setState({inputs: newInputsState});
   }
 
+  onSliderValueChange = (newValue,sliderKey) =>{
+    if(!this.state.sliders[sliderKey])
+      return null;
+    let newSlidersState = {...this.state.sliders};
+    newSlidersState[sliderKey].value = newValue;
+    this.setState({sliders: newSlidersState});  
+  }
   renderHeader = () => {
     return (
       <Block flex = {false} center row space="between" style = {styles.header}>
@@ -94,6 +116,25 @@ class SettingsScreen extends React.Component {
     );
   }
 
+  renderSliders = () => {
+    const sliderComponents = Object.entries(this.state.sliders).map(
+      ([sliderKey,sliderValues]) => (
+        <Slider
+          label = {sliderValues.label}
+          value = {sliderValues.value}
+          step = {sliderValues.step}
+          minimumValue ={sliderValues.minimumValue}
+          maximumValue = {sliderValues.maximumValue} 
+          onValueChange = {(value)=>this.onSliderValueChange(value, sliderKey)}
+        />
+      ));
+    return(
+      <Block>
+        {sliderComponents}
+      </Block>
+    )
+  }
+
   render(){
     return (
         <Block>
@@ -101,21 +142,8 @@ class SettingsScreen extends React.Component {
           <ScrollView>
             {this.renderInputs()}
             <Divider/> 
-            <Block margin={theme.sizes.base*3}>
-            <Slider
-              value={this.state.sliderValue}
-              step ={100}
-              minimumValue = {0}
-              maximumValue = {5000}
-              onValueChange={value => this.setState({ sliderValue: value })}
-              minimumTrackTintColor='#1fb28a'
-              maximumTrackTintColor='#d3d3d3'
-              thumbTintColor='#1a9274'
-            />
-            <Text>
-              Value: {this.state.sliderValue}
-            </Text>
-            </Block>
+            {this.renderSliders()}
+            <Divider/>
           </ScrollView>
         </Block>
     );

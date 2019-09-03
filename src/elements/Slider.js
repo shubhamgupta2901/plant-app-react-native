@@ -52,8 +52,8 @@ class SliderBlock extends React.Component {
 
 const styles = StyleSheet.create({
     track: {
-        height: 10,
-        borderRadius: 4,
+        height: 6,
+        borderRadius: 3,
         backgroundColor: 'white',
         shadowColor: 'black',
         shadowOffset: {width: 0, height: 1},
@@ -61,11 +61,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
       },
       thumb: {
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
         backgroundColor: theme.colors.primary,
         borderColor: theme.colors.white,
-        borderWidth: 4,
+        borderWidth: 3.5,
         borderRadius: 10,
         shadowColor: 'black',
         shadowOffset: {width: 0, height: 2},
