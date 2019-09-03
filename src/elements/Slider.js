@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 1},
         shadowRadius: 1,
         shadowOpacity: 0.15,
+        elevation:1.5,
       },
       thumb: {
         width: 16,
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 2,
         shadowOpacity: 0.35,
+        elevation:2,
       }
 })
 
