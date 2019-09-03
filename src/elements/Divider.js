@@ -14,6 +14,7 @@ export default class Divider extends Component {
 
     return (
       <Block
+        flex ={false}
         color={color || theme.colors.gray2}
         style={dividerStyles}
         {...props}
