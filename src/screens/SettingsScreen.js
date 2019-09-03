@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet,ScrollView, Image, View} from 'react-native';
 import PropTypes from 'prop-types';
+import Slider from "react-native-slider";
 import {Block, Text, Button, Switch, Divider, Input} from '../elements';
 import {theme,mocks} from '../constants';
 import {CommonUtils} from '../utils'
@@ -28,7 +29,8 @@ class SettingsScreen extends React.Component {
           editable: false,
           hasRightLabel: false,
         }
-    },
+      },
+      sliderValue: 1000,
     }
   }
 
@@ -99,6 +101,21 @@ class SettingsScreen extends React.Component {
           <ScrollView>
             {this.renderInputs()}
             <Divider/> 
+            <Block margin={theme.sizes.base*3}>
+            <Slider
+              value={this.state.sliderValue}
+              step ={100}
+              minimumValue = {0}
+              maximumValue = {5000}
+              onValueChange={value => this.setState({ sliderValue: value })}
+              minimumTrackTintColor='#1fb28a'
+              maximumTrackTintColor='#d3d3d3'
+              thumbTintColor='#1a9274'
+            />
+            <Text>
+              Value: {this.state.sliderValue}
+            </Text>
+            </Block>
           </ScrollView>
         </Block>
     );
