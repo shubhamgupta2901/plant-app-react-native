@@ -26,7 +26,7 @@ class SliderBlock extends React.Component {
       const {value} = this.props;
       return (
         <Block flex={false}>
-            <Text primary right>Value: {value}</Text>
+            <Text primary right>{value}</Text>
         </Block>
       )
   }

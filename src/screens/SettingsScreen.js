@@ -45,7 +45,18 @@ class SettingsScreen extends React.Component {
           step: 100,
         },
       },
-      sliderValue: 1000,
+      switches:{
+        notification: {
+          label: "Notification",
+          value: true,
+
+        },
+        newsletter: {
+          label: "Newsletter",
+          value: true,
+
+        }
+      }
     }
   }
 
@@ -75,6 +86,14 @@ class SettingsScreen extends React.Component {
     let newSlidersState = {...this.state.sliders};
     newSlidersState[sliderKey].value = newValue;
     this.setState({sliders: newSlidersState});  
+  }
+
+  onSwichValueChange = (newValue, switchKey) => {
+    if(!this.state.switches[switchKey])
+      return null;
+    let newSwitchesState = {...this.state.switches};
+    newSwitchesState[switchKey].value = newValue;
+    this.setState({sliders: newSwitchesState}); 
   }
   renderHeader = () => {
     return (
@@ -132,7 +151,25 @@ class SettingsScreen extends React.Component {
       <Block>
         {sliderComponents}
       </Block>
-    )
+    );
+  }
+
+  renderSwitches = () => {
+    const switchComponents = Object.entries(this.state.switches).map(([switchKey, switchValue])=> (
+      <Block center row space="between" padding = {[theme.sizes.base,theme.sizes.base*2]} >
+        <Text>{switchValue.label}</Text>
+        <Switch
+          value={switchValue.value}
+          onValueChange={(value)=> this.onSwichValueChange(value, switchKey)}
+        />
+      </Block>
+    ));
+
+    return(
+      <Block>
+        {switchComponents}
+      </Block>
+    );
   }
 
   render(){
@@ -144,6 +181,7 @@ class SettingsScreen extends React.Component {
             <Divider/> 
             {this.renderSliders()}
             <Divider/>
+            {this.renderSwitches()}
           </ScrollView>
         </Block>
     );
