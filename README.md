@@ -12,4 +12,4 @@ Original screen designs : [Dribble](https://dribbble.com/shots/4569970-Plant-Fre
   - [ ] Browse Screen uses a very ineffcient way to implement tabs, and only shows list of categories in all three tabs. Would be replacing the tabs with react-native's **tab-view and navigation**. Will be showing **categories, articles and galleries** in the three tabs.
   - [ ] Explore Screen's images rendering is hardcoded. Will be replacing with a **Pinterest-like Staggered Gridview** for dynamic image sizes.
   - [ ] Will be working on implementing and **dark mode** of application.
-  -[ ] Will allow users to **save/bookmark articles and galleries**.
+  - [ ] Will allow users to **save/bookmark articles and galleries**.
