@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions,   StyleSheet, Image, TouchableOpacity} from 'react-native'
+import {Animated, Dimensions,   StyleSheet, Image, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,31 +12,48 @@ class ExploreScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      searchText: "",
+      searchFocus: new Animated.Value(0.6), 
+      searchText: null,
     }
   }
+
 
   onImageClicked = () => {
     this.props.navigation.navigate('products');
   }
 
+  onToggleSearchFocus = (isFocused) => {
+    Animated.timing(
+      this.state.searchFocus,
+      {
+        toValue: isFocused ? 0.8 : 0.6, // status === true, increase flex size
+        duration: 150, // ms
+      }
+    ).start();
+  }
+
   renderSearch = () => {
+    const {searchFocus, searchText} = this.state;
+    const isEditing = searchFocus && searchText;
     return (
-      <Block middle flex={0.6} style = {styles.searchContainer}>
+      <Block animated middle flex={searchFocus} style = {styles.searchContainer}>
         <Input
           placeholder = "Search"
           placeholderTextColor = {theme.colors.gray}
           style = {styles.searchInput}
-          value = {this.state.searchText}
+          value = {searchText}
           onChangeText = {(text) => {this.setState({searchText: text})}}
+          onFocus = {()=>this.onToggleSearchFocus(true)}
+          onBlur = {()=> this.onToggleSearchFocus(false)}
           rightLabel = { 
           <Icon 
             color={theme.colors.gray} 
             size={theme.sizes.font} 
-            name={"ios-search"} 
+            name={isEditing ? "ios-close":"ios-search"} 
             style={styles.searchIcon}
             />}
           rightStyle = {styles.searchRight}
+          onRightPress = { ()=> isEditing ? this.setState({searchText: null}) : null}
         />
       </Block>
     );
