@@ -7,10 +7,12 @@ const colors = {
     white: "#FFFFFF",
     gray: "#9DA3B4",
     gray2: "#C5CCD6",
+    grey_300: "#e0e0e0",
     badgeTint: "rgba(41,216,143,0.20)",
   };
   
   const sizes = {
+    
     // global sizes
     base: 16,
     font: 14,
