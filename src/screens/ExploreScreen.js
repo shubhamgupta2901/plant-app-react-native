@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions,   StyleSheet, Image} from 'react-native'
+import {Dimensions,   StyleSheet, Image, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,6 +14,10 @@ class ExploreScreen extends React.Component {
     this.state = {
       searchText: "",
     }
+  }
+
+  onImageClicked = () => {
+    this.props.navigation.navigate('products');
   }
 
   renderSearch = () => {
@@ -47,10 +51,49 @@ class ExploreScreen extends React.Component {
     )
   }
 
-  renderExplore = () => {
+  renderImage = (image, index) => {
+    const sizes = Image.resolveAssetSource(image);
+    const fullWidth = width - (theme.sizes.padding * 2.5);
+    const resize = (sizes.width * 100) / fullWidth;
+    const imgWidth = resize > 75 ? fullWidth : sizes.width * 1;
+
     return (
-      <Block>
-        <Text>Images</Text>
+      <TouchableOpacity
+        key={`img-${index}`}
+        onPress={() => this.onImageClicked()}
+      >
+        <Image
+          source={image}
+          style={[
+            styles.image,
+            { minWidth: imgWidth, maxWidth: imgWidth }
+          ]}
+        />
+      </TouchableOpacity>
+    )
+  }
+
+  renderExplore = () => {
+    const {images} = this.props;
+    const mainImage = images[0];
+    const remainingImages = images.slice(1,images.length);
+    return (
+      <Block style = {{marginBottom: height / 3}} center>
+        <TouchableOpacity
+          style ={[styles.image,styles.mainImage]}
+          onPress = {()=> this.onImageClicked()}
+        >
+          <Image
+            style ={[styles.image,styles.mainImage]}
+            resizeMode="cover"
+            source={mainImage}
+          />
+        </TouchableOpacity>
+
+        <Block row space="between" wrap>
+          {images.slice(1, images.length).map((image, index) => this.renderImage(image, index))}
+        </Block>
+
       </Block>
     );
   }
@@ -117,7 +160,6 @@ const styles = StyleSheet.create({
       marginHorizontal: theme.sizes.base*2,
     },
     footer: {
-      
       position: 'absolute',
       bottom: 0,
       right: 0,
@@ -128,13 +170,26 @@ const styles = StyleSheet.create({
       height: height*0.1,
       width: width,
       paddingBottom: theme.sizes.base*4,
-    }
+    },
+    image: {
+      minHeight: 100,
+      maxHeight: 130,
+      maxWidth: width - (theme.sizes.padding * 2.5),
+      marginBottom: theme.sizes.base,
+      borderRadius: 4,
+    },
+    mainImage: {
+      minWidth: width - (theme.sizes.padding * 2.5),
+      minHeight: width - (theme.sizes.padding * 2.5),
+    },
 })
 
 ExploreScreen.propTypes ={
+  images: PropTypes.array,
 }
 
 ExploreScreen.defaultProps ={
+  images: mocks.explore,
 }
 
 export default ExploreScreen;
