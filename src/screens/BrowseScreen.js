@@ -29,13 +29,14 @@ class BrowseScreen extends React.Component {
   }
 
   onTabClicked = (tab) => {
-    if(tab === this.active)
+    if(tab === this.state.active)
       return;
     this.setState({
       active: tab,
       categories: this.getCategoriesForActiveTab(tab),
     });
   }
+  
   onAvatarClicked = () => {
     this.props.navigation.navigate('settings');
   }
