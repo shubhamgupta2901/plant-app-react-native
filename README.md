@@ -4,6 +4,8 @@ Code originally written by [dribbble2react](https://github.com/react-ui-kit/drib
 
 Original screen designs : [Dribble](https://dribbble.com/shots/4569970-Plant-Freebie-2-Dribbble-Invites)
 
+![](https://github.com/shubhamgupta2901/plant-app-react-native/blob/master/screenshot.png)
+
 ### Planned improvements on original app:
   1. All dimensions in React Native are unitless, and represent density-independent pixels. Setting dimensions this way is common for *components that should always render at exactly the same size, regardless of screen dimensions*. Due to this, the application **does not scale well on Tablets and different size devices**. Will be looking to solve that issue.  Will also need to use **dynamic font sizes** (rem?).
   2. The implementation is iOS-first and hence there are certain **issues when running the app on android devices** (elevations etc). Need to fix that.
@@ -11,5 +13,3 @@ Original screen designs : [Dribble](https://dribbble.com/shots/4569970-Plant-Fre
   4. Explore Screen's images rendering is hardcoded. Will be replacing with a **Pinterest-like Staggered Gridview** for dynamic image sizes.
   5. Will be working on implementing and **dark mode** of application.
   6. Will allow users to **save/bookmark articles and galleries**.
-
-![](https://github.com/shubhamgupta2901/plant-app-react-native/blob/master/screenshot.png)
