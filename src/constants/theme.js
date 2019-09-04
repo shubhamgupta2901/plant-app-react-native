@@ -9,6 +9,8 @@ const colors = {
     gray2: "#C5CCD6",
     grey_300: "#e0e0e0",
     badgeTint: "rgba(41,216,143,0.20)",
+    transparent: "rgba(255,255,255,0)",
+    white_transparent_6: "rgba(255,255,255,0.6)",
   };
   
   const sizes = {
