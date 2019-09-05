@@ -29,7 +29,7 @@ class ProductScreen extends React.Component {
 
   scrollX = new Animated.Value(0);
 
-  renderGallery = () => {
+  renderHeaderGallery = (images = []) => {
     return(
       <FlatList
         horizontal
@@ -37,7 +37,7 @@ class ProductScreen extends React.Component {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         snapToAlignment="center"
-        data = {this.props.product.images}
+        data = {images}
         keyExtractor = {(item, index) => `${index}`}
         renderItem = {({item,index}) =>{
           return (
@@ -57,8 +57,7 @@ class ProductScreen extends React.Component {
     )
   }
 
-  renderSteps = () => {
-    const images = this.props.product.images;
+  renderHeaderGallerySteps = (images = []) => {
     const stepPosition = Animated.divide(this.scrollX, width)
     return (
       <Block row center middle style = {styles.stepsContainer}>
@@ -80,52 +79,53 @@ class ProductScreen extends React.Component {
         })
       }
       </Block>
-    )
-
+    );
   }
+  renderName = (name = "") => {
+    return  <Text h2 bold> {name}</Text>;
+  }
+
+  renderTags = (tags =[]) => {
+    return (
+      <Block flex={false} row  margin = {[theme.sizes.base,0]}>
+        {tags.map(tag => (
+          <Button
+            key = {CommonUtils.generateUniqueId()}
+            center
+            color={theme.colors.white} 
+            style = {styles.tag}
+          >
+          <Text small light gray2 center semibold>{tag}</Text>
+        </Button>
+        ))}
+      </Block>
+    )
+  }
+
+  renderDescription = (description = "") => {
+    return <Text gray light height={22}>{description}</Text>
+  }
+
   render(){
+    const {product} = this.props;
     return (
       <ScrollView
         showsVerticalScrollIndicator = {false}
       >
         <Block center middle>
-          {this.renderGallery()}
-          {this.renderSteps()}
-        </Block>
-        
-        <Block padding = {[theme.sizes.base, theme.sizes.base*2]} >
-          <Text h2 bold> {this.props.product.name}</Text>
+          {this.renderHeaderGallery(product.images)}
+          {this.renderHeaderGallerySteps(product.images)}
         </Block>
 
-        <Block row  padding = {[0, theme.sizes.base*2]}>
-          {this.props.product.tags.map(tag => (
-            <Button
-              key = {CommonUtils.generateUniqueId()}
-              center
-              color={theme.colors.white} 
-              style = {{
-                marginRight: theme.sizes.base*0.5,
-                borderRadius: theme.sizes.radius* 3 , 
-                borderColor: theme.colors.gray2, 
-                borderWidth: 1,
-                height: theme.sizes.base*2,
-                paddingHorizontal: theme.sizes.base , 
-              }}
-            >
-            <Text small light gray2 center semibold>{tag}</Text>
-           </Button>
-          ))}
+        <Block style = {styles.productContainer}>
+          {this.renderName(product.name)}
+          {this.renderTags(product.tags)}
+          {this.renderDescription(product.description)}
+          <Divider margin={[theme.sizes.padding * 0.9, 0]}/>
         </Block>
-
-        <Block padding = {[theme.sizes.base, theme.sizes.base*2]} >
-          <Text gray body> {this.props.product.description}</Text>
-        </Block>
-
-        <Divider/>
         
         <Block padding = {[0, theme.sizes.base*2]}>
             <Text bold>Gallery</Text>
-
         </Block>
 
       </ScrollView>
@@ -134,6 +134,10 @@ class ProductScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  productContainer: {
+    paddingHorizontal: theme.sizes.base * 2,
+    paddingVertical: theme.sizes.padding,
+  },
   stepsContainer:{
     position: 'absolute',
     bottom: theme.sizes.base* 2,
@@ -146,6 +150,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 2.5,
   },
+  tag: {
+    marginRight: theme.sizes.base*0.625,
+    borderRadius: theme.sizes.radius* 3 , 
+    borderColor: theme.colors.gray2, 
+    borderWidth: StyleSheet.hairlineWidth,
+    height: theme.sizes.base*2,
+    paddingHorizontal: theme.sizes.base , 
+  }
+  
 })
 
 ProductScreen.propTypes ={
