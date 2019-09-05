@@ -13,33 +13,36 @@ import {Image} from 'react-native';
  * I was using default argument behavior of functions to provide  them myself, on App.js's behalf.  
  * 
  * However, that's now how it works. It seems that the address of assets should be relative to this file.
- * TODO: Got to understand how this works.
+ * TODO: Got to understand how this works. 
+ * Initial Impression: Will certainly behave differently depending on where i am passing require('location') or simply 'location' as a string in the array
+ * because a require('location') will return a specific resource to caller, which is present in asset. 
+ * while a simple location is a string , which the caller will use to load a resource at that class.
  * */
   const requiredImagesForCaching = [
     require('../../assets/splash.png'),
     // require('./assets/icon.png'),
     
-    // require('./assets/images/icon.png'),
-    // require('./assets/images/avatar.png'),
-    // require('./assets/images/plants_1.png'),
-    // require('./assets/images/plants_2.png'),
-    // require('./assets/images/plants_3.png'),
-    // require('./assets/images/explore_1.png'),
-    // require('./assets/images/explore_2.png'),
-    // require('./assets/images/explore_3.png'),
-    // require('./assets/images/explore_4.png'),
-    // require('./assets/images/explore_5.png'),
-    // require('./assets/images/explore_6.png'),
+    // require('../../assets/images/icon.png'),
+    // require('../../assets/images/avatar.png'),
+    require('../../assets/images/plants_1.png'),
+    require('../../assets/images/plants_2.png'),
+    require('../../assets/images/plants_3.png'),
+    // require('../../assets/images/explore_1.png'),
+    // require('../../assets/images/explore_2.png'),
+    // require('../../assets/images/explore_3.png'),
+    // require('../../assets/images/explore_4.png'),
+    // require('../../assets/images/explore_5.png'),
+    // require('../../assets/images/explore_6.png'),
 
-    // require('./assets/icons/back.png'),
-    // require('./assets/icons/fertilizers.png'),
-    // require('./assets/icons/flowers.png'),
-    // require('./assets/icons/plants_1.png'),
-    // require('./assets/icons/plants.png'),
-    // require('./assets/icons/pots.png'),
-    // require('./assets/icons/seeds.png'),
-    // require('./assets/icons/sprayers.png'),
-    // require('./assets/icons/slider-dot.png'),
+    // require('../../assets/icons/back.png'),
+    // require('../../assets/icons/fertilizers.png'),
+    // require('../../assets/icons/flowers.png'),
+    // require('../../assets/icons/plants_1.png'),
+    // require('../../assets/icons/plants.png'),
+    // require('../../assets/icons/pots.png'),
+    // require('../../assets/icons/seeds.png'),
+    // require('../../assets/icons/sprayers.png'),
+    // require('../../assets/icons/slider-dot.png'),
 
 ];
 
