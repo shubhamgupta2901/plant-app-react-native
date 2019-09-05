@@ -13,3 +13,4 @@ Original screen designs : [Dribble](https://dribbble.com/shots/4569970-Plant-Fre
   - [ ] Explore Screen's images rendering is hardcoded. Will be replacing with a **Pinterest-like Staggered Gridview** for dynamic image sizes.
   - [ ] Will be working on implementing and **dark mode** of application.
   - [ ] Will allow users to **save/bookmark articles and galleries**.
+  - [X] Product Screen's gallery does not have steps. Not very intutive that it represents a list. Will add **step indicators** in the gallery.
