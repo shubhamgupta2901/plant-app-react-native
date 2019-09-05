@@ -105,29 +105,53 @@ class ProductScreen extends React.Component {
   renderDescription = (description = "") => {
     return <Text gray light height={22}>{description}</Text>
   }
-
+  renderBottomGallery = (images = []) => {
+    const startIndex = 0;
+    const endIndex = Math.min(2,images.length); // endIndex is exclusive
+    return (
+      <Block>
+        <Text semibold>Gallery</Text>
+        <Block row margin={[theme.sizes.padding*0.9, 0]}>
+          {images.slice(startIndex,endIndex).map((image) => (
+            <Image 
+              key={CommonUtils.generateUniqueId()}
+              source={image}
+              style = {styles.image}
+              />
+          ))}
+          {
+            images.length > (endIndex-startIndex) ? (
+              <Block 
+                style = {styles.more}
+                flex={false}
+                card
+                center
+                middle
+              >
+                <Text gray>{`+ ${images.length-(endIndex-startIndex)}`}</Text>
+              </Block>
+            ): null 
+          }
+        </Block>
+      </Block>
+    )
+  }
   render(){
     const {product} = this.props;
     return (
-      <ScrollView
-        showsVerticalScrollIndicator = {false}
-      >
+      <ScrollView showsVerticalScrollIndicator = {false}>
         <Block center middle>
           {this.renderHeaderGallery(product.images)}
           {this.renderHeaderGallerySteps(product.images)}
         </Block>
-
+        
         <Block style = {styles.productContainer}>
           {this.renderName(product.name)}
           {this.renderTags(product.tags)}
           {this.renderDescription(product.description)}
           <Divider margin={[theme.sizes.padding * 0.9, 0]}/>
+          {this.renderBottomGallery(product.images)}
         </Block>
-        
-        <Block padding = {[0, theme.sizes.base*2]}>
-            <Text bold>Gallery</Text>
-        </Block>
-
       </ScrollView>
     );
   }
@@ -157,8 +181,18 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     height: theme.sizes.base*2,
     paddingHorizontal: theme.sizes.base , 
+  },
+  image: {
+    width: width / 3.26,
+    height: width / 3.26,
+    marginRight: theme.sizes.base,
+  },
+  more: {
+    marginRight: theme.sizes.base,
+    backgroundColor: theme.colors.grey_300,
+    width: width / 7,
+    height: width/7,
   }
-  
 })
 
 ProductScreen.propTypes ={
