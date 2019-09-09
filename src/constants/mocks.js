@@ -53,14 +53,13 @@ const products = [
       require('../../assets/images/plants_1.png'),
       require('../../assets/images/plants_2.png'),
       require('../../assets/images/plants_3.png'),
-      // showing only 3 images, show +6 for the rest
       require('../../assets/images/plants_1.png'),
       require('../../assets/images/plants_2.png'),
       require('../../assets/images/plants_3.png'),
       require('../../assets/images/plants_1.png'),
       require('../../assets/images/plants_2.png'),
       require('../../assets/images/plants_3.png'),
-    ]
+    ],
   }
 ];
 

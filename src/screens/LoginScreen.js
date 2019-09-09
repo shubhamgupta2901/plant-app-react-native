@@ -30,7 +30,7 @@ class LoginScreen extends React.Component {
   onLoginClicked = async () => {
     Keyboard.dismiss();
     this.setState({loading: true});
-    await CommonUtils.wait(2000);
+    await CommonUtils.wait(1200);
     const errors = [];
     if(!CommonUtils.validateEmail(this.state.email)){
       errors.push('email');

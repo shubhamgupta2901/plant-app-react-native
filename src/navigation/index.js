@@ -21,13 +21,13 @@ const screens = createStackNavigator(
         login: LoginScreen,
         forgot_password: ForgotPasswordScreen,
         signup: SignupScreen,
-        explore: ExploreScreen,
         browse: BrowseScreen,
+        explore: ExploreScreen, 
         products: ProductsScreen,
         settings: SettingsScreen,
     },
     {
-        
+        initialRouteName:'welcome',
         defaultNavigationOptions: {
             headerStyle: {
                 height: theme.sizes.base*4,
