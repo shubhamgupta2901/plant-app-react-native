@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { View, TouchableOpacity,Dimensions,StyleSheet, Image,ScrollView} from 'react-native';
+import { View, TouchableOpacity, StyleSheet,Dimensions, Image,ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
-import PropTypes from 'prop-types';
+import {GalleryTab, ArticlesTab, ProductsTab} from './browsetabs';
 import { Block, Text, Button, Card, Badge} from '../elements';
 import {theme, mocks} from '../constants';
-import {ProductsTab, ArticlesTab, GalleryTab} from './browsetabs';
-
-const { width } = Dimensions.get('window');
-
 
 export default class BrowseTabScreen extends React.Component {
   state = {
@@ -18,46 +15,10 @@ export default class BrowseTabScreen extends React.Component {
       { key: 'inspirations', title: 'Inspirations' },
       { key: 'shop', title: 'Shop' },
     ],
+    categories: [],
   };
 
-  _handleIndexChange = index => this.setState({ index });
-
-  _renderTabBar = props => {
-    const inputRange = props.navigationState.routes.map((x, i) => i);
-
-    return (
-      <View style={styles.tabBar}>
-        {props.navigationState.routes.map((route, i) => {
-          const color = Animated.color(
-            Animated.round(
-              Animated.interpolate(props.position, {
-                inputRange,
-                outputRange: inputRange.map(inputIndex =>
-                  inputIndex === i ? 255 : 0
-                ),
-              })
-            ),
-            0,
-            0
-          );
-
-          return (
-            <TouchableOpacity
-              style={styles.tabItem}
-              onPress={() => this.setState({ index: i })}>
-              <Animated.Text style={{ color }}>{route.title}</Animated.Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
-
-  _renderScene = SceneMap({
-    products: ProductsTab,
-    inspirations: ArticlesTab,
-    shop: GalleryTab,
-  });
+  handleTabChange = index => this.setState({ index });
 
   renderHeader = () => {
     return (
@@ -73,35 +34,49 @@ export default class BrowseTabScreen extends React.Component {
     );
   }
 
+  renderTabs = (props) => {
+    return (
+      <View style = {styles.tabs}>
+        {props.navigationState.routes.map((route, index)=> this.renderTab(route.title, index))}
+      </View>
+    );
+  }
+
+  renderTab = (routeTitle, routeIndex) => {
+    const isActive = routeIndex === this.state.index;
+    return (
+      <TouchableOpacity
+        key = {`tab-${routeTitle}`}
+        onPress={() => this.setState({ index: routeIndex })}
+        style = {[styles.tab, isActive ? styles.activeTab : null]}
+      >
+        <Text size = {16} medium gray = {!isActive} secondary = {isActive}>{routeTitle}</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  renderScene = SceneMap({
+    products: ProductsTab,
+    inspirations: ArticlesTab,
+    shop: GalleryTab,
+  });
+
   render() {
     return (
-    <Block>
+      <Block>
         {this.renderHeader()}
         <TabView
-            navigationState={this.state}
-            renderScene={this._renderScene}
-            renderTabBar={this._renderTabBar}
-            onIndexChange={this._handleIndexChange}
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          renderTabBar={this.renderTabs}
+          onIndexChange={this.handleTabChange}
         />
-    </Block>
-      
+      </Block>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  tabBar: {
-    flexDirection: 'row',
-    paddingTop: 0,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 16,
-  },
+const styles = StyleSheet.create({ 
   header: {
     paddingHorizontal: theme.sizes.base*2,
   },
@@ -111,13 +86,15 @@ const styles = StyleSheet.create({
     borderRadius: theme.sizes.base * 1.2,
   },
   tabs: {
+    flexDirection: 'row',
     borderBottomColor: theme.colors.gray2,
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginTop:theme.sizes.base,
     marginHorizontal: theme.sizes.base *2 ,
   }, 
   tab:{
-    marginRight:theme.sizes.base * 0.5,
+    flex: 1,
+    alignItems: 'center',
     paddingBottom: theme.sizes.base,
   },
   activeTab:{
@@ -129,21 +106,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.sizes.base *2,
     marginBottom: theme.sizes.base* 3.5,
   },
-  category:{
-    minWidth: (width - (theme.sizes.padding * 2.4) - theme.sizes.base) / 2,
-    maxWidth: (width - (theme.sizes.padding * 2.4) - theme.sizes.base) / 2,
-    maxHeight: (width - (theme.sizes.padding * 2.4) - theme.sizes.base) / 2,
-  },
 });
 
-BrowseTabScreen.propTypes = {
-    profile: PropTypes.object,
-    categories: PropTypes.arrayOf(PropTypes.object),
-    tabs: PropTypes.arrayOf(PropTypes.string),
+BrowseTabScreen.propTypes ={
+  profile: PropTypes.object,
+  categories: PropTypes.arrayOf(PropTypes.object),
+  tabs: PropTypes.arrayOf(PropTypes.string),
 }
-  
-BrowseTabScreen.defaultProps = {
-    profile: mocks.profile,
-    categories: mocks.categories,
-    tabs: ['Products', 'Inspirations', 'Shop'],
+
+BrowseTabScreen.defaultProps ={
+  profile: mocks.profile,
+  categories: mocks.categories,
+  tabs: ['Products', 'Inspirations', 'Shop'],
 }
