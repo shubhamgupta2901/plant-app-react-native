@@ -1,79 +1,107 @@
 import React from 'react';
-import {Dimensions,StyleSheet,View, Text} from 'react-native'
+import {Dimensions,StyleSheet,Image,View, Text} from 'react-native'
 import PropTypes from 'prop-types';
 import Masonry from 'react-native-masonry-layout';
-import Unsplash, { toJson } from 'unsplash-js/native';
+import {unsplashService} from '../../services';
+import {theme} from '../../constants';
 
 const { width } = Dimensions.get( "window" );
 const columnWidth = ( width - 10 ) / 2 - 10;
 
-const config = {
-  unsplashApplicationId: '472cac9117b005dce9808153cbf00fbac1a844ba720438b8c7bc7b2cce26a6ef',
-  unsplashSecret: 'e86e3776cc22b52ad65e3f04127dabdb622958b498d1e61cd0ceaa074176ce03',
-}
-const unsplash = new Unsplash({
-  applicationId: config.unsplashApplicationId,
-  secret: config.unsplashSecret,
-});
-
-const unsplashService =  {
-  listPhotos: unsplash.photos.listPhotos,
-  searchPhotos: unsplash.search.photos,
-  toJson,
-};
-
 class GalleryTab extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      withHeight: true,
+  constructor( props ) {
+		super( props );
+		this.state = {
+			withHeight: true,
 			loading: false
-    }
-  }
+		};
+	}
 
-  componentDidMount = async ()=>{
-    await this.makeRemoteRequest();
+  componentDidMount = async () => {
+		await this.makeRemoteRequest();
   }
 
   makeRemoteRequest = async () => {
     this.setState({ loading: true });
-    unsplashService.searchPhotos("house plant",1,30)
+    unsplashService.searchPhotos("small garden",1,30)
       .then(unsplashService.toJson)
       .then((data) => {
         this.setState({ loading: false });
-         console.log(data);
-        
         data = data.results.map( item => {
             return {
                 image: item.urls.thumb,
+                placeholderColor: item.color,
                 text: item.description || item.alt_description || "",
                 key: item.id,
                 height: columnWidth / item.width * item.height
             }
         } );
         if ( this.state.withHeight ) {
-            this.refs.masonry.addItemsWithHeight( data );
+            this.refs.list.addItemsWithHeight( data );
         } else {
-            this.refs.masonry.addItems( data );
+            this.refs.list.addItems( data );
         }
       })
       .catch((error) => {
         console.error(error);
         this.setState({ loading: false });
       });
-  };
+};
 
-  render(){
-    return (
-      <Masonry
-        ref="masonry"
-        columns={3} // optional - Default: 2
-        renderItem={(item)=><View>
-          <Text>{item.text}</Text>
-        </View>}
-      />
-    );
-  }
+onScrollEnd( event ) {
+  // const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
+  // const height = Math.floor( event.nativeEvent.contentSize.height );
+  // if ( scrollHeight >= height ) {
+  // 	this.load();
+  // }
+}
+
+render() {
+  return (
+          <View style={{ flex: 1, backgroundColor: theme.colors.gallery_background }}>
+              <Masonry 
+                  onMomentumScrollEnd={this.onScrollEnd.bind( this )}
+                  style={{ flex: 1, borderWidth: 1, borderColor: "transparent" }}
+                  columns={2} 
+                  ref="list"
+                  containerStyle={{ padding: 5 }}
+                  renderItem={item => <View
+                      style={{
+                          margin: 5,
+                          backgroundColor: item.color || theme.colors.white,
+                          borderRadius: 5,
+                          overflow: "hidden",
+                          borderWidth: 1,
+                          borderColor: "#dedede"
+                      }}>
+                      <Image source={{ uri: item.image }} style={{ height: item.height }}/>
+                  </View>}
+              />
+              {this.state.loading && 
+                  <View style={{
+                      position: "absolute",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      backgroundColor: "rgba(0,0,0,0.3)"
+                  }}>
+                      <Text 
+                          style={{
+                              backgroundColor: "#fff",
+                              paddingVertical: 20,
+                              paddingHorizontal: 30,
+                              borderRadius: 10}}
+                      >
+                          Loading
+                      </Text>
+                  </View>
+              }
+      </View>
+      );
+}
 }
 
 const styles = StyleSheet.create({

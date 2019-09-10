@@ -56,8 +56,8 @@ export default class BrowseTabScreen extends React.Component {
 
   renderScene = SceneMap({
     products: CategoriesTab,
-    inspirations: ArticlesTab,
-    shop: GalleryTab,
+    inspirations: GalleryTab,
+    shop: ArticlesTab,
   });
 
   render() {
