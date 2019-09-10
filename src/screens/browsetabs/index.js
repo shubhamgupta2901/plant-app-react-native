@@ -1,9 +1,9 @@
 import ArticlesTab from './ArticlesTab';
 import GalleryTab from './GalleryTab';
-import ProductsTab from './ProductsTab';
+import CategoriesTab from './CategoriesTab';
 
 export {
     ArticlesTab,
     GalleryTab,
-    ProductsTab,
+    CategoriesTab,
 }

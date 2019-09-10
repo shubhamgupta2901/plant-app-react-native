@@ -2,8 +2,7 @@ import * as React from 'react';
 import { View, TouchableOpacity, StyleSheet,Dimensions, Image,ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
-import {GalleryTab, ArticlesTab, ProductsTab} from './browsetabs';
+import {GalleryTab, ArticlesTab, CategoriesTab} from './browsetabs';
 import { Block, Text, Button, Card, Badge} from '../elements';
 import {theme, mocks} from '../constants';
 
@@ -56,7 +55,7 @@ export default class BrowseTabScreen extends React.Component {
   }
 
   renderScene = SceneMap({
-    products: ProductsTab,
+    products: CategoriesTab,
     inspirations: ArticlesTab,
     shop: GalleryTab,
   });
