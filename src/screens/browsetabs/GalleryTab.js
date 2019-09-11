@@ -32,7 +32,7 @@ class GalleryTab extends React.Component {
     this.setState({ loading: true });
     unsplashService.searchPhotos(SEARCH_QUERY,this.state.page,PAGE_SIZE)
       .then(unsplashService.toJson)
-      .then((responseData) => {
+      .then((responseData) => { 
         incomingData = responseData.results.map( item => {
             return {
                 image: item.urls.thumb,
@@ -48,6 +48,7 @@ class GalleryTab extends React.Component {
             loading: false,
             page: prevState.page+1,
             data: data,
+            totalResponses: responseData.total_pages,
         }))
         
         if ( this.state.withHeight ) {
@@ -69,7 +70,8 @@ onScrollEnd = async ( event ) =>{
   const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
   const height = Math.floor( event.nativeEvent.contentSize.height );
   if ( scrollHeight >= height ) {
-    await this.makeRemoteRequest();
+    if(this.state.data.length < this.state.totalResponses)
+      await this.makeRemoteRequest();
   }
 }
 
@@ -98,16 +100,17 @@ onScrollEnd = async ( event ) =>{
                 />
                 {this.state.loading && 
                 <View style={{
-                position: "absolute",
-                justifyContent: "center",
-                alignItems: "center",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                backgroundColor: "rgba(0,0,0,0.3)"
-                }}>
-                <DotIndicator color = {theme.colors.primary} count = {4} size = {theme.sizes.base*0.5}/>
+                  position: "absolute",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  backgroundColor: "rgba(0,0,0,0.3)"
+                  }}
+                >
+                  <DotIndicator color = {theme.colors.primary} count = {4} size = {theme.sizes.base*0.5}/>
                 </View>
                 }
             </View>

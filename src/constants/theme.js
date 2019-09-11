@@ -11,6 +11,7 @@ const colors = {
     badgeTint: "rgba(41,216,143,0.20)",
     transparent: "rgba(255,255,255,0)",
     white_transparent_6: "rgba(255,255,255,0.6)",
+    gallery_background: "#EEE",
   };
   
   const sizes = {
