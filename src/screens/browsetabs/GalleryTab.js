@@ -1,33 +1,39 @@
 import React from 'react';
-import {Dimensions,StyleSheet,Image,View, Text} from 'react-native'
+import {Platform,Dimensions,StyleSheet,Image,View, Text} from 'react-native'
 import PropTypes from 'prop-types';
 import Masonry from 'react-native-masonry-layout';
 import {unsplashService} from '../../services';
 import {theme} from '../../constants';
+import {DotIndicator} from '../../elements';
+
 
 const { width } = Dimensions.get( "window" );
 const columnWidth = ( width - 10 ) / 2 - 10;
+const PAGE_SIZE= 20;
+const SEARCH_QUERY= 'plants';
 
 class GalleryTab extends React.Component {
   constructor( props ) {
-		super( props );
-		this.state = {
-			withHeight: true,
-			loading: false
-		};
-	}
+    super( props );
+    this.state = {
+      withHeight: true,
+      loading: false,
+      data: [],
+      page: 1,
+      totalResponses: 0,
+    };
+  }
 
   componentDidMount = async () => {
-		await this.makeRemoteRequest();
+      await this.makeRemoteRequest();
   }
 
   makeRemoteRequest = async () => {
     this.setState({ loading: true });
-    unsplashService.searchPhotos("small garden",1,30)
+    unsplashService.searchPhotos(SEARCH_QUERY,this.state.page,PAGE_SIZE)
       .then(unsplashService.toJson)
-      .then((data) => {
-        this.setState({ loading: false });
-        data = data.results.map( item => {
+      .then((responseData) => {
+        incomingData = responseData.results.map( item => {
             return {
                 image: item.urls.thumb,
                 placeholderColor: item.color,
@@ -36,72 +42,77 @@ class GalleryTab extends React.Component {
                 height: columnWidth / item.width * item.height
             }
         } );
+        data = this.state.data;
+        data.length === 0 ? data = incomingData : data = [...data, ...incomingData];
+        this.setState(prevState => ({
+            loading: false,
+            page: prevState.page+1,
+            data: data,
+        }))
+        
         if ( this.state.withHeight ) {
-            this.refs.list.addItemsWithHeight( data );
+            this.refs.list.addItemsWithHeight(incomingData );
         } else {
-            this.refs.list.addItems( data );
+            this.refs.list.addItems( incomingData );
         }
       })
       .catch((error) => {
         console.error(error);
         this.setState({ loading: false });
       });
-};
+    };
 
-onScrollEnd( event ) {
-  // const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
-  // const height = Math.floor( event.nativeEvent.contentSize.height );
-  // if ( scrollHeight >= height ) {
-  // 	this.load();
-  // }
+onScrollEnd = async ( event ) =>{
+//Callback when scroller reaches end of Masonry View 
+//TODO: if all the results are shown, don't do anything
+
+  const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
+  const height = Math.floor( event.nativeEvent.contentSize.height );
+  if ( scrollHeight >= height ) {
+    await this.makeRemoteRequest();
+  }
 }
 
-render() {
-  return (
-          <View style={{ flex: 1, backgroundColor: theme.colors.gallery_background }}>
-              <Masonry 
-                  onMomentumScrollEnd={this.onScrollEnd.bind( this )}
-                  style={{ flex: 1, borderWidth: 1, borderColor: "transparent" }}
-                  columns={2} 
-                  ref="list"
-                  containerStyle={{ padding: 5 }}
-                  renderItem={item => <View
-                      style={{
+    render() {
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.colors.gallery_background }}>
+                <Masonry 
+                    onMomentumScrollEnd={this.onScrollEnd.bind( this )}
+                    style={{ flex: 1, borderWidth: 1, borderColor: "transparent", marginBottom: Platform.OS === 'ios' ? theme.sizes.base : 0 }}
+                    columns={2} 
+                    ref="list"
+                    containerStyle={{ padding: 5 }}
+                    renderItem={item => (
+                      <View
+                        style={{
                           margin: 5,
-                          backgroundColor: item.color || theme.colors.white,
+                          ackgroundColor: item.color || theme.colors.white,
                           borderRadius: 5,
                           overflow: "hidden",
                           borderWidth: 1,
                           borderColor: "#dedede"
-                      }}>
-                      <Image source={{ uri: item.image }} style={{ height: item.height }}/>
-                  </View>}
-              />
-              {this.state.loading && 
-                  <View style={{
-                      position: "absolute",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      backgroundColor: "rgba(0,0,0,0.3)"
-                  }}>
-                      <Text 
-                          style={{
-                              backgroundColor: "#fff",
-                              paddingVertical: 20,
-                              paddingHorizontal: 30,
-                              borderRadius: 10}}
-                      >
-                          Loading
-                      </Text>
-                  </View>
-              }
-      </View>
-      );
-}
+                        }}>   
+                        <Image source={{ uri: item.image }} style={{ height: item.height }}/>
+                      </View>)
+                  }
+                />
+                {this.state.loading && 
+                <View style={{
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: "rgba(0,0,0,0.3)"
+                }}>
+                <DotIndicator color = {theme.colors.primary} count = {4} size = {theme.sizes.base*0.5}/>
+                </View>
+                }
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
