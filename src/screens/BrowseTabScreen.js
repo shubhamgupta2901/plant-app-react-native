@@ -10,8 +10,8 @@ export default class BrowseTabScreen extends React.Component {
   state = {
     index: 0,
     routes: [
-      { key: 'products', title: 'Products' },
       { key: 'inspirations', title: 'Inspirations' },
+      { key: 'products', title: 'Products' },
       { key: 'shop', title: 'Shop' },
     ],
     categories: [],

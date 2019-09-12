@@ -1,10 +1,10 @@
 import React from 'react';
-import {Platform,Dimensions,StyleSheet,Image,View, Text} from 'react-native'
+import {Platform,Dimensions,StyleSheet,Image,View} from 'react-native'
 import PropTypes from 'prop-types';
 import Masonry from 'react-native-masonry-layout';
 import {unsplashService} from '../../services';
 import {theme} from '../../constants';
-import {DotIndicator} from '../../elements';
+import {Block,DotIndicator} from '../../elements';
 
 
 const { width } = Dimensions.get( "window" );
@@ -63,56 +63,69 @@ class GalleryTab extends React.Component {
       });
     };
 
-onScrollEnd = async ( event ) =>{
-//Callback when scroller reaches end of Masonry View 
-//TODO: if all the results are shown, don't do anything
+  onScrollEnd = async ( event ) =>{
+  //Callback when scroller reaches end of Masonry View 
+  //TODO: if all the results are shown, don't do anything
 
-  const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
-  const height = Math.floor( event.nativeEvent.contentSize.height );
-  if ( scrollHeight >= height ) {
-    if(this.state.data.length < this.state.totalResponses)
-      await this.makeRemoteRequest();
+    const scrollHeight = Math.floor( event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height );
+    const height = Math.floor( event.nativeEvent.contentSize.height );
+    if ( scrollHeight >= height ) {
+      if(this.state.data.length < this.state.totalResponses)
+        await this.makeRemoteRequest();
+    }
   }
-}
+
+  renderProgressIndicator = () => {
+    if(!this.state.loading)
+      return null;
+    return (
+        <View style={{
+          position: "absolute",
+          justifyContent: "center",
+          alignItems: "center",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: "rgba(0,0,0,0.3)"
+          }}
+        >
+            <DotIndicator color = {theme.colors.white} count = {4} size = {theme.sizes.base*0.5}/>
+        </View>
+    )
+  }
+
+  renderMasonryItem = (item) => {
+    return (
+      <View
+        style={{
+          margin: 5,
+          backgroundColor: item.color,
+          borderRadius: 5,
+          overflow: "hidden",
+          borderWidth: 1,
+          borderColor: "#dedede"
+        }}
+      >   
+        <Image source={{ uri: item.image }}  style={{ height: item.height }}/>
+      </View>
+    )
+  }
+
+  
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: theme.colors.gallery_background }}>
-                <Masonry 
-                    onMomentumScrollEnd={this.onScrollEnd.bind( this )}
-                    style={{ flex: 1, borderWidth: 1, borderColor: "transparent", marginBottom: Platform.OS === 'ios' ? theme.sizes.base : 0 }}
-                    columns={2} 
-                    ref="list"
-                    containerStyle={{ padding: 5 }}
-                    renderItem={item => (
-                      <View
-                        style={{
-                          margin: 5,
-                          ackgroundColor: item.color || theme.colors.white,
-                          borderRadius: 5,
-                          overflow: "hidden",
-                          borderWidth: 1,
-                          borderColor: "#dedede"
-                        }}>   
-                        <Image source={{ uri: item.image }} style={{ height: item.height }}/>
-                      </View>)
-                  }
-                />
-                {this.state.loading && 
-                <View style={{
-                  position: "absolute",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  backgroundColor: "rgba(0,0,0,0.3)"
-                  }}
-                >
-                  <DotIndicator color = {theme.colors.primary} count = {4} size = {theme.sizes.base*0.5}/>
-                </View>
-                }
+            <View style={{ flex: 1, backgroundColor: theme.colors.gallery_background }}> 
+              <Masonry 
+                  onMomentumScrollEnd={this.onScrollEnd.bind( this )}
+                  style={{ flex: 1, borderWidth: 1, borderColor: "transparent", marginBottom: Platform.OS === 'ios' ? theme.sizes.base : 0 }}
+                  columns={2} 
+                  ref="list"
+                  containerStyle={{ padding: 5 }}
+                  renderItem={item => this.renderMasonryItem(item)}
+              />
+              {this.renderProgressIndicator()}
             </View>
         );
     }
