@@ -6,6 +6,10 @@ Original screen designs : [Dribble](https://dribbble.com/shots/4569970-Plant-Fre
 
 ![](https://github.com/shubhamgupta2901/plant-app-react-native/blob/master/screenshot.png)
 
+### Installation
+1. Rename the ```config.sample.js``` file placed in root to ```config.js```
+2. Replace ```YOUR-UNSPLASH_APPLICATION_ID``` and ```YOUR-UNSPLASH-SECRET``` below with your unsplash application_id and secret respectively. You can register in unsplash [here](https://unsplash.com/join).
+
 ### Planned improvements on original app:
   - [ ] All dimensions in React Native are unitless, and represent density-independent pixels. Setting dimensions this way is common for *components that should always render at exactly the same size, regardless of screen dimensions*. Due to this, the application **does not scale well on Tablets and different size devices**. Will be looking to solve that issue.  Will also need to use **dynamic font sizes** (rem?).
   - [X] The implementation is iOS-first and hence there are certain **issues when running the app on android devices** (elevations etc). Need to fix that.
