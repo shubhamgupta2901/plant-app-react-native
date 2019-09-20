@@ -8,6 +8,7 @@ import Divider from './Divider';
 import Switch from './Switch';
 import Slider from './Slider';
 import {DotIndicator, BarIndicator} from './indicator';
+import Masonry from './Masonry';
 
 
 export {
@@ -22,4 +23,5 @@ export {
     Divider,
     DotIndicator, 
     BarIndicator,
+    Masonry,
 };

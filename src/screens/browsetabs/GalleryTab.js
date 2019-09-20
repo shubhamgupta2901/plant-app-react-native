@@ -1,10 +1,10 @@
 import React from 'react';
 import {Platform,Dimensions,StyleSheet,Image,View} from 'react-native'
 import PropTypes from 'prop-types';
-import Masonry from 'react-native-masonry-layout';
 import {unsplashService} from '../../services';
 import {theme} from '../../constants';
-import {Block,DotIndicator} from '../../elements';
+import {Masonry, Block,DotIndicator} from '../../elements';
+
 
 
 const { width } = Dimensions.get( "window" );
