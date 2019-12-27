@@ -11,6 +11,10 @@ class App extends React.Component{
         this.state = {isReady: false};
     }
 
+    componentWillMount = async () => {
+        await this.loadAssetsAsynchrously();
+    }
+
     loadAssetsAsynchrously = () =>{
         const imageAssets = PreloadingAssets.cacheImages();
         const fontsAssets = PreloadingAssets.cacheFonts();

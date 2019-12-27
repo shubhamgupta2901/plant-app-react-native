@@ -1,18 +1,23 @@
 import React from 'react';
 import {StyleSheet,View, Text} from 'react-native'
 import PropTypes from 'prop-types'
+import NewsList from './news/NewsList';
 
 class ArticlesTab extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      text: 'Articles'
     }
   }
+
+  componentDidMount = () => {
+    
+  }
+   
   render(){
     return (
-        <View style={styles.container}>
-            <Text>Articles</Text>
-        </View>
+        <NewsList/>
     );
   }
 }

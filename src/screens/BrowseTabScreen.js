@@ -11,8 +11,9 @@ export default class BrowseTabScreen extends React.Component {
     index: 0,
     routes: [
       { key: 'inspirations', title: 'Inspirations' },
+      { key: 'shop', title: 'Articles' },
       { key: 'products', title: 'Products' },
-      { key: 'shop', title: 'Shop' },
+
     ],
     categories: [],
   };
@@ -116,5 +117,5 @@ BrowseTabScreen.propTypes ={
 BrowseTabScreen.defaultProps ={
   profile: mocks.profile,
   categories: mocks.categories,
-  tabs: ['Products', 'Inspirations', 'Shop'],
+  tabs: ['Products', 'Inspirations', 'Articles'],
 }
