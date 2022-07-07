@@ -11,7 +11,7 @@
     "expo": "^34.0.1",
     "expo-asset": "~6.0.0",
     "expo-linear-gradient": "~6.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "native-base": "^2.13.8",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
